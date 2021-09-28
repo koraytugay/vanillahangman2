@@ -1,10 +1,10 @@
-import {HangmanGame, attempt, isGameOver, isGameWon, getBadGuessCount, getTargetWordMasked} from './hangmanService.js'
+import {newHangmanGame, attempt, isGameOver, isGameWon, getBadGuessCount, getTargetWordMasked} from './hangmanService.js'
 
-let hangmanGame = new HangmanGame();
+let hangmanGame = newHangmanGame();
 redrawUi();
 
 document.querySelector('#new-game-button').addEventListener('click', function() {
-  hangmanGame = new HangmanGame();
+  hangmanGame = newHangmanGame();
   redrawUi();
 });
 

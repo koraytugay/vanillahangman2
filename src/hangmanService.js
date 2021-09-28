@@ -1,9 +1,10 @@
 import words from './words.js';
 
-export function HangmanGame() {
-  this.targetWord = words[Math.floor(Math.random() * words.length)];
-  this.attempts = [];
-  console.log(this.targetWord);
+export function newHangmanGame() {
+  return {
+    targetWord: words[Math.floor(Math.random() * words.length)],
+    attempts: []
+  }
 }
 
 export function attempt({attempts}, attempt) {
