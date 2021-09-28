@@ -36,14 +36,7 @@ export function isGameWon({targetWord, attempts}) {
 }
 
 export function getTargetWordMasked({targetWord, attempts}) {
-  let targetWordMasked = "";
-  for (let i = 0; i < targetWord.length; i++) {
-    if (attempts.includes(targetWord[i])) {
-      targetWordMasked = targetWordMasked.concat(targetWord[i]);
-    }
-    else {
-      targetWordMasked = targetWordMasked.concat('_');
-    }
-  }
-  return targetWordMasked;
+  return [...targetWord].map(letter => {
+    return attempts.includes(letter) ? letter : '_';
+  });
 }
