@@ -1,4 +1,4 @@
-import {HangmanGame, isGameOver, isGameWon, getBadGuessCount, getTargetWordMasked} from './hangmanService.js'
+import {HangmanGame, attempt, isGameOver, isGameWon, getBadGuessCount, getTargetWordMasked} from './hangmanService.js'
 
 let hangmanGame = new HangmanGame();
 redrawUi();
@@ -10,7 +10,7 @@ document.querySelector('#new-game-button').addEventListener('click', function() 
 
 document.addEventListener('keydown', function({key}) {
   if ([...'abcdefghijklmnopqrstuvwxyz'].includes(key)) {
-    hangmanGame.attempt(key);
+    attempt(hangmanGame, key);
     redrawUi();
   }
 });
@@ -51,7 +51,7 @@ function drawLetters() {
       disabled: isGameOver(hangmanGame) || isGameWon(hangmanGame) || hangmanGame.attempts.includes(letter)
     });
     letterButton.addEventListener('click', () => {
-      hangmanGame.attempt(letter);
+      attempt(hangmanGame, letter);
       redrawUi();
     });
     lettersContainer.appendChild(letterButton);

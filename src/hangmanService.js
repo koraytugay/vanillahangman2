@@ -3,22 +3,15 @@ import words from './words.js';
 export function HangmanGame() {
   this.targetWord = words[Math.floor(Math.random() * words.length)];
   this.attempts = [];
-  this.attempt = function(letter) {
-    if (!this.attempts.includes(letter)) {
-      this.attempts.push(letter);
-    }
-  }
   console.log(this.targetWord);
 }
 
+export function attempt({attempts}, attempt) {
+  !attempts.includes(attempt) && attempts.push(attempt);
+}
+
 export function getBadGuessCount({targetWord, attempts}) {
-  let badGuessCount = 0;
-  for (const attempt of attempts) {
-    if (!(targetWord.includes(attempt))) {
-      badGuessCount++;
-    }
-  }
-  return badGuessCount;
+  return attempts.filter(attempt => !targetWord.includes(attempt)).length;
 }
 
 export function isGameOver({targetWord, attempts}) {
@@ -26,13 +19,7 @@ export function isGameOver({targetWord, attempts}) {
 }
 
 export function isGameWon({targetWord, attempts}) {
-  let gameWon = true;
-  for (const targetLetter of targetWord) {
-    if (!attempts.includes(targetLetter)) {
-      gameWon = false;
-    }
-  }
-  return gameWon;
+  return [...targetWord].filter(value => !attempts.includes(value)).length === 0;
 }
 
 export function getTargetWordMasked({targetWord, attempts}) {
