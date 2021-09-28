@@ -14,7 +14,7 @@ export function HangmanGame() {
 export function getBadGuessCount({targetWord, attempts}) {
   let badGuessCount = 0;
   for (const attempt of attempts) {
-    if (![...new Set(targetWord)].includes(attempt)) {
+    if (!(targetWord.includes(attempt))) {
       badGuessCount++;
     }
   }
@@ -27,8 +27,7 @@ export function isGameOver({targetWord, attempts}) {
 
 export function isGameWon({targetWord, attempts}) {
   let gameWon = true;
-  const targetLetters = [...new Set(targetWord)];
-  for (const targetLetter of targetLetters) {
+  for (const targetLetter of targetWord) {
     if (!attempts.includes(targetLetter)) {
       gameWon = false;
     }
