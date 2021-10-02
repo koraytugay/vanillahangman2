@@ -1,16 +1,16 @@
-import {newHangmanGame, attempt, isGameOver, isGameWon, getBadGuessCount, getTargetWordMasked} from './hangmanService.js'
+import HangmanGame from './hangmanService.js'
 
-let hangmanGame = newHangmanGame();
+let hangmanGame = new HangmanGame();
 redrawUi();
 
 document.querySelector('#new-game-button').addEventListener('click', function() {
-  hangmanGame = newHangmanGame();
+  hangmanGame = new HangmanGame();
   redrawUi();
 });
 
 document.addEventListener('keydown', function({key}) {
   if ([...'abcdefghijklmnopqrstuvwxyz'].includes(key)) {
-    attempt(hangmanGame, key);
+    hangmanGame.attempt(key);
     redrawUi();
   }
 });
@@ -25,7 +25,7 @@ function drawSecretWord() {
   const secretWordContainer = document.querySelector('#secret-word-container');
   secretWordContainer.innerHTML = '';
 
-  for (const letter of isGameOver(hangmanGame) ? hangmanGame.targetWord : getTargetWordMasked(hangmanGame)) {
+  for (const letter of hangmanGame.isGameOver() ? hangmanGame.targetWord : hangmanGame.getTargetWordMasked()) {
     const targetLetterSpan = document.createElement('span');
     targetLetterSpan.innerText = letter;
     secretWordContainer.appendChild(targetLetterSpan);
@@ -35,7 +35,7 @@ function drawSecretWord() {
 function drawHangmanImage() {
   let images = `resources/images/`;
   Object.assign(document.querySelector("#hangman-image"), {
-    src: isGameWon(hangmanGame) ? `${images}youwin.png` : `${images}${getBadGuessCount(hangmanGame)}.png`
+    src: hangmanGame.isGameWon() ? `${images}youwin.png` : `${images}${hangmanGame.getBadGuessCount()}.png`
   });
 }
 
@@ -48,10 +48,10 @@ function drawLetters() {
     letterButton.classList.add('guess-letter');
     Object.assign(letterButton, {
       textContent: letter,
-      disabled: isGameOver(hangmanGame) || isGameWon(hangmanGame) || hangmanGame.attempts.includes(letter)
+      disabled: hangmanGame.isGameOver() || hangmanGame.isGameWon() || hangmanGame.attempts.includes(letter)
     });
     letterButton.addEventListener('click', () => {
-      attempt(hangmanGame, letter);
+      hangmanGame.attempt(letter);
       redrawUi();
     });
     lettersContainer.appendChild(letterButton);
