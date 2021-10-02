@@ -1,28 +1,31 @@
 import words from './words.js';
 
-export function newHangmanGame() {
-  return {
-    targetWord: words[Math.floor(Math.random() * words.length)],
-    attempts: []
+export default class {
+  targetWord = words[Math.floor(Math.random() * words.length)];
+  attempts = [];
+
+  constructor() {
+    // if you want to cheat..
+    // console.log(this.targetWord);
   }
-}
 
-export function attempt({attempts}, attempt) {
-  !attempts.includes(attempt) && attempts.push(attempt);
-}
+  attempt(attempt) {
+    !this.attempts.includes(attempt) && this.attempts.push(attempt);
+  }
 
-export function getBadGuessCount({targetWord, attempts}) {
-  return attempts.filter(attempt => !targetWord.includes(attempt)).length;
-}
+  getBadGuessCount() {
+    return this.attempts.filter(attempt => !this.targetWord.includes(attempt)).length;
+  }
 
-export function isGameOver({targetWord, attempts}) {
-  return getBadGuessCount({targetWord, attempts}) === 10;
-}
+  isGameOver() {
+    return this.getBadGuessCount() === 10;
+  }
 
-export function isGameWon({targetWord, attempts}) {
-  return [...targetWord].filter(value => !attempts.includes(value)).length === 0;
-}
+  isGameWon() {
+    return [...this.targetWord].filter(value => !this.attempts.includes(value)).length === 0;
+  }
 
-export function getTargetWordMasked({targetWord, attempts}) {
-  return [...targetWord].map(letter => attempts.includes(letter) ? letter : '_');
+  getTargetWordMasked() {
+    return [...this.targetWord].map(letter => this.attempts.includes(letter) ? letter : '_');
+  }
 }
